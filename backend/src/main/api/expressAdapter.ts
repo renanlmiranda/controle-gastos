@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { IRequest } from '../../controller/interface/IRequest'
+import { IRequest } from '@/controller/interface/IRequest'
 
-export const adaptRoute = (controller) => {
+export const adaptRoute = (controller: any) => {
     return async (req: Request, res: Response) => {
         const httpRequest: IRequest = {
             body: req.body,
