@@ -3,9 +3,10 @@ import IncomePersonalRepository from "@/database/repository/implementation/perso
 import { envs } from "@/shared/envs/envs"
 import CreateIncome from "@/useCase/income/createIncome.useCase"
 import { created, getResponseFromError } from "@/controller/util/httpResponses"
+import { IRequest } from "./interface/IRequest"
 
 export default class IncomeController {
-    async create(request: any): Promise<any> {
+    async create(request: IRequest): Promise<any> {
         try {
             const repository = envs.nodeEnv === 'dev' ? new IncomePersonalRepository() : new IncomeRepository()
             const createIncomeUseCase = new CreateIncome(repository)
