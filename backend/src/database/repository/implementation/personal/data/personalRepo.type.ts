@@ -7,6 +7,10 @@ export interface defaultType {
     id:          number;
 }
 
-export interface JsonType {
+export interface IncomeJsonType {
+    incomes: Array<defaultType>
+}
+
+export interface ExpensesJsonType {
     expenses: Array<defaultType>
 }

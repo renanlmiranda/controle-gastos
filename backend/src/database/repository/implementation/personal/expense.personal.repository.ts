@@ -1,7 +1,7 @@
 import IBaseRepository from "@/database/repository/IBaseRepository";
 import fs from 'fs'
 import path from "path";
-import { JsonType } from "@/database/repository/implementation/personal/data/personalRepo.type";
+import { ExpensesJsonType } from "@/database/repository/implementation/personal/data/personalRepo.type";
 
 export default class ExpensePersonalRepository implements IBaseRepository<any> {
     private expenseRepositoryPath: string
@@ -12,7 +12,7 @@ export default class ExpensePersonalRepository implements IBaseRepository<any> {
 
     async save(body: any): Promise<any> {
         const filePath = this.expenseRepositoryPath
-        const expenseJson: JsonType = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        const expenseJson: ExpensesJsonType = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
         const id = expenseJson.expenses.length  + 1
         const data = {
             created_at: new Date(),
