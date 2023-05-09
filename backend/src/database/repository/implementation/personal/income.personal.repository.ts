@@ -35,6 +35,29 @@ export default class IncomePersonalRepository implements IBaseRepository<any> {
     };
 
     async findAll(filters: any): Promise<any> {
+        let total: number = 0
+        const filePath = this.incomeRepositoryPath
+        const expenseJson: IncomeJsonType = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
 
+        const filteredArray = expenseJson.incomes.filter(income => {
+            const createdAt = new Date(income.created_at)
+            const disabledAt = income.disabled_at
+
+            const currentDate = new Date()
+            const currentYear = currentDate.getFullYear()
+            const currentMonth = currentDate.getMonth() + 1
+
+            return (
+                createdAt.getFullYear() === currentYear &&
+                createdAt.getMonth() + 1 === currentMonth &&
+                disabledAt === null
+            )
+
+        })
+
+        /*filteredArray.forEach(income => {
+            total += income.value
+        })*/
+        return {list: filteredArray}
     };
 }

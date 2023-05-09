@@ -1,7 +1,7 @@
 import IBaseRepository from "@/database/repository/IBaseRepository"
 import { IEnvs } from "@/shared/envs/IEnvs"
 
-export default class FindAllExpenseAndIncome {
+export default class FindTotalIncomesAndExpenses {
     constructor(
         private readonly envs: IEnvs, 
         private readonly incomeRepository: IBaseRepository<any>,

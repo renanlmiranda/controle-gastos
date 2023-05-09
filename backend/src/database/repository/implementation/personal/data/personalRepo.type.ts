@@ -3,7 +3,7 @@ export interface defaultType {
     updated_at:  null;
     disabled_at: null;
     name:        string;
-    value:       string;
+    value:       number;
     id:          number;
 }
 
