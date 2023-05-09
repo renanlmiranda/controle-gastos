@@ -1,9 +1,9 @@
-import IBaseRepository from "@/database/repository/IBaseRepository";
+import IExpenseAndIncomeRepository from "@/database/repository/IExpenseAndIncomeRepository";
 import fs from 'fs'
 import path from "path";
 import { ExpensesJsonType } from "@/database/repository/implementation/personal/data/personalRepo.type";
 
-export default class ExpensePersonalRepository implements IBaseRepository<any> {
+export default class ExpensePersonalRepository implements IExpenseAndIncomeRepository<any> {
     private expenseRepositoryPath: string
 
     constructor(){
@@ -35,6 +35,29 @@ export default class ExpensePersonalRepository implements IBaseRepository<any> {
     };
 
     async findAll(filters: any): Promise<any> {
+        const filePath = this.expenseRepositoryPath
+        const expenseJson: ExpensesJsonType = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+
+        const filteredArray = expenseJson.expenses.filter(expense => {
+            const createdAt = new Date(expense.created_at)
+            const disabledAt = expense.disabled_at
+
+            const currentDate = new Date()
+            const currentYear = currentDate.getFullYear()
+            const currentMonth = currentDate.getMonth() + 1
+
+            return (
+                createdAt.getFullYear() === currentYear &&
+                createdAt.getMonth() + 1 === currentMonth &&
+                disabledAt === null
+            )
+
+        })
+
+        return {list: filteredArray}
+    };
+
+    async findTotal(filters: any): Promise<any> {
         let total: number = 0
         const filePath = this.expenseRepositoryPath
         const expenseJson: ExpensesJsonType = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
@@ -55,10 +78,10 @@ export default class ExpensePersonalRepository implements IBaseRepository<any> {
 
         })
 
-        /*filteredArray.forEach(expense => {
+        filteredArray.forEach(expense => {
             total += expense.value
-        })*/
+        })
 
-        return {list: filteredArray}
+        return total
     };
 }

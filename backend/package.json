@@ -23,7 +23,7 @@
     "@": "./src"
   },
   "scripts": {
-    "dev": "ts-node -r tsconfig-paths/register src/main/server.ts"
+    "dev": "ts-node-dev -r tsconfig-paths/register src/main/server.ts"
   },
   "keywords": [],
   "author": "",

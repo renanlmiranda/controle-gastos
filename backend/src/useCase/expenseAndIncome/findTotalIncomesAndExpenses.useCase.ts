@@ -1,26 +1,27 @@
-import IBaseRepository from "@/database/repository/IBaseRepository"
+import IExpenseAndIncomeRepository from "@/database/repository/IExpenseAndIncomeRepository"
 import { IEnvs } from "@/shared/envs/IEnvs"
 
 export default class FindTotalIncomesAndExpenses {
     constructor(
         private readonly envs: IEnvs, 
-        private readonly incomeRepository: IBaseRepository<any>,
-        private readonly expenseRepository: IBaseRepository<any>
+        private readonly incomeRepository: IExpenseAndIncomeRepository<any>,
+        private readonly expenseRepository: IExpenseAndIncomeRepository<any>
     ) {}
 
     async execute(filters: any): Promise<any> {
         if (this.envs.nodeEnv === "dev"){
-            const getIncome = await this.incomeRepository.findAll(
+            const income = await this.incomeRepository.findTotal(
                 filters
             )
 
-            const getExpense = await this.expenseRepository.findAll(
+            const expense = await this.expenseRepository.findTotal(
                 filters
             )
 
             return {
-                getIncome,
-                getExpense
+                income,
+                expense,
+                available: income - expense
             }
         }
 

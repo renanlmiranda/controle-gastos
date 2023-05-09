@@ -5,12 +5,13 @@ import ExpensePersonalRepository from "@/database/repository/implementation/pers
 import IncomePersonalRepository from "@/database/repository/implementation/personal/income.personal.repository"
 import { envs } from "@/shared/envs/envs"
 import FindTotalIncomesAndExpenses from "@/useCase/expenseAndIncome/findTotalIncomesAndExpenses.useCase"
-import { created, getResponseList } from "@/controller/util/httpResponses"
+import { created, getResponse, getResponseList } from "@/controller/util/httpResponses"
 import { getResponseFromError } from "./util/httpResponses"
 import CreateIncome from "@/useCase/income/createIncome.useCase"
 import CreateExpense from "@/useCase/expense/createExpense.useCase"
 import FindAllIncome from "@/useCase/income/findAll.useCase"
 import FindAllExpense from "@/useCase/expense/findAll.useCase"
+import { getResponseOne } from "@/controller/util/httpResponses"
 
 export default class IncomeAndExpenseController {
     async createIncome(request: IRequest): Promise<any> {
@@ -44,7 +45,7 @@ export default class IncomeAndExpenseController {
 
             const useCase = new FindTotalIncomesAndExpenses(envs, incomeRepository, expenseRepository)
             const result = await useCase.execute(request.query)
-            return getResponseList(result)
+            return getResponseOne(result)
         } catch (error) {
             getResponseFromError(error)
         }

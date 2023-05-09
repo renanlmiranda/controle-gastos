@@ -1,6 +1,7 @@
 import IBaseRepository from "@/database/repository/IBaseRepository";
+import IExpenseAndIncome from "@/database/repository/IExpenseAndIncomeRepository";
 
-export default class IncomeRepository implements IBaseRepository<any> {
+export default class IncomeRepository implements IExpenseAndIncome<any> {
     async save(body: any): Promise<any> {
         
     };
@@ -14,6 +15,10 @@ export default class IncomeRepository implements IBaseRepository<any> {
     };
 
     async findAll(filters: any): Promise<any> {
+
+    };
+
+    async findTotal(filters: any): Promise<any> {
 
     };
 }

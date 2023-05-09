@@ -1,9 +1,9 @@
-import IBaseRepository from "@/database/repository/IBaseRepository";
+import IExpenseAndIncomeRepository from "@/database/repository/IExpenseAndIncomeRepository";
 import path from "path";
 import fs from 'fs'
 import { IncomeJsonType } from "@/database/repository/implementation/personal/data/personalRepo.type";
 
-export default class IncomePersonalRepository implements IBaseRepository<any> {
+export default class IncomePersonalRepository implements IExpenseAndIncomeRepository<any> {
     private incomeRepositoryPath: string
 
     constructor(){
@@ -35,6 +35,29 @@ export default class IncomePersonalRepository implements IBaseRepository<any> {
     };
 
     async findAll(filters: any): Promise<any> {
+        const filePath = this.incomeRepositoryPath
+        const expenseJson: IncomeJsonType = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+
+        const filteredArray = expenseJson.incomes.filter(income => {
+            const createdAt = new Date(income.created_at)
+            const disabledAt = income.disabled_at
+
+            const currentDate = new Date()
+            const currentYear = currentDate.getFullYear()
+            const currentMonth = currentDate.getMonth() + 1
+
+            return (
+                createdAt.getFullYear() === currentYear &&
+                createdAt.getMonth() + 1 === currentMonth &&
+                disabledAt === null
+            )
+
+        })
+
+        return {list: filteredArray}
+    };
+
+    async findTotal(filters: any): Promise<any> {
         let total: number = 0
         const filePath = this.incomeRepositoryPath
         const expenseJson: IncomeJsonType = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
@@ -55,9 +78,10 @@ export default class IncomePersonalRepository implements IBaseRepository<any> {
 
         })
 
-        /*filteredArray.forEach(income => {
+        filteredArray.forEach(income => {
             total += income.value
-        })*/
-        return {list: filteredArray}
+        })
+
+        return total
     };
 }

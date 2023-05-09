@@ -1,10 +1,16 @@
 {
   "expenses": [
     {
+      "created_at": 1683519282323,
+      "updated_at": null,
+      "disabled_at": null,
       "name": "Cartão de Crédito",
       "value": 1800
     },
     {
+      "created_at": 1683519282323,
+      "updated_at": null,
+      "disabled_at": null,
       "name": "Cartão de Crédito",
       "value": 1800
     },
@@ -14,7 +20,7 @@
       "disabled_at": null,
       "name": "Cartão de Crédito",
       "value": 1800,
-      "id": "[object Object]1"
+      "id": "3"
     },
     {
       "created_at": 1683519405348,
